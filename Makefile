@@ -27,6 +27,7 @@ save-config:
 	@ls ./configs
 
 run:
+	@echo "dir: $(IMAGES)"
 	@qemu-system-x86_64 \
 			-kernel $(IMAGES)/bzImage \
 			-drive file=$(IMAGES)/rootfs.ext2,format=raw \

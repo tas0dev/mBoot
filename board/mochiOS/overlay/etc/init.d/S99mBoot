@@ -2,7 +2,13 @@
 
 case "$1" in
   start)
-    echo "Welcome to mochiOS Loader!"
-    qemu-system-x86_64 -drive file=/usr/mBoot/mochiOS-system.img,format=raw -display sdl
+    echo "mBoot: Starting mochiOS..."
+
+    qemu-system-x86_64 \
+        -drive file=/usr/mBoot/mochiOS.img,format=raw \
+        -bios /usr/mBoot/OVMF.fd \
+        -vga std \
+        -display sdl \
+        -m 256M
     ;;
 esac

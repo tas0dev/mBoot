@@ -6,8 +6,9 @@ DEFCONFIG_PATH="$ROOT_DIR/configs/mboot_defconfig"
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 mkdir -p board/mochiOS/overlay/usr/mBoot
-cp ./mochiOS.img ./board/mochiOS/overlay/usr/mBoot/
+cp ./mochiOS.img ./board/mochiOS/overlay/usr/mBoot/mochiOS.img
+cp /usr/share/ovmf/OVMF.fd ./board/mochiOS/overlay/usr/mBoot/OVMF.fd
 
 cd "$BR_DIR"
 make defconfig BR2_DEFCONFIG="$DEFCONFIG_PATH"
-make -j8
+make

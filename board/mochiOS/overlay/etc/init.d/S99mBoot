@@ -3,7 +3,7 @@
 case "$1" in
   start)
     echo "mBoot: Starting mochiOS..."
-
+    export SDL_VIDEODRIVER=kmsdrm
     qemu-system-x86_64 \
         -drive file=/usr/mBoot/mochiOS.img,format=raw \
         -bios /usr/mBoot/OVMF.fd \

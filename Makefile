@@ -4,6 +4,7 @@ CONFIG_FILE = $(shell pwd)/configs/$(CONFIG_NAME)
 OUTPUT_DIR = $(BUILDROOT_DIR)/output
 IMAGES_DIR = $(OUTPUT_DIR)/images
 IMAGES  := $(BUILDROOT_DIR)/output/images
+LINUX_CONFIG_FILE := $(shell pwd)/configs/linux_defconfig
 
 .PHONY: all setup build clean qemu save-config
 
@@ -18,8 +19,12 @@ build:
 	$(MAKE) -C $(BUILDROOT_DIR)
 
 save-config:
-	@echo "Saving configuration to $(CONFIG_FILE)..."
-	$(MAKE) -C $(BUILDROOT_DIR) savedefconfig BR2_DEFCONFIG=$(CONFIG_FILE)
+	@echo "Saving Buildroot configuration..."
+	@$(MAKE) -C $(BUILDROOT_DIR) savedefconfig BR2_DEFCONFIG=$(CONFIG_FILE)
+	@echo "Saving Linux kernel configuration..."
+	@$(MAKE) -C $(BUILDROOT_DIR) linux-savedefconfig
+	@cp $(BUILDROOT_DIR)/output/build/linux-*/defconfig $(LINUX_CONFIG_FILE)
+	@ls ./configs
 
 run:
 	@qemu-system-x86_64 \

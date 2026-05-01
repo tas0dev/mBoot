@@ -2,17 +2,9 @@
 
 case "$1" in
   start)
-    echo "mBoot: Initializing Video via Framebuffer..."
-    
-    export SDL_VIDEODRIVER=fbcon
-    
-    chmod 666 /dev/fb0
-    
-    qemu-system-x86_64 \
-        -drive file=/usr/mBoot/mochiOS.img,format=raw \
-        -bios /usr/mBoot/OVMF.fd \
-        -vga std \
-        -display sdl \
-        -m 256M &
+    echo "[mBoot] Connecting to running X server..."
+    export DISPLAY=:0
+    sleep 1
+    /usr/mBoot/xstart.sh &
     ;;
 esac

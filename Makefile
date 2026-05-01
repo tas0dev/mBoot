@@ -8,7 +8,7 @@ LINUX_CONFIG_FILE := $(shell pwd)/configs/linux_defconfig
 
 .PHONY: all setup build clean qemu save-config
 
-all: setup build
+all: build
 
 setup:
 	@echo "Setting up Buildroot with $(CONFIG_NAME)..."
@@ -16,7 +16,7 @@ setup:
 
 build:
 	@echo "Starting Buildroot build..."
-	$(MAKE) -C $(BUILDROOT_DIR)
+	@./build
 
 save-config:
 	@echo "Saving Buildroot configuration..."
@@ -35,15 +35,18 @@ run:
 			-serial stdio \
 			-vga std \
 			-display sdl \
-			-m 1G
+			-m 1G \
+			-netdev user,id=net0 \
+			-device e1000,netdev=net0
 
 clean:
 	$(MAKE) -C $(BUILDROOT_DIR) clean
 
 help:
+	@echo "mBoot Build system"
+	@echo ""
 	@echo "Usage:"
-	@echo "  make             - Build everything (Not recommended)"
+	@echo "  make             - Build everything"
 	@echo "  make setup       - Setup buildroot"
-	@echo "  make save-config - Save .config to configs/$(DEFCONFIG)"
+	@echo "  make save-config - Save build config to configs dir"
 	@echo "  make run         - Boot the image with QEMU"
-	@echo " ./build.sh        - Build (recommended)"

@@ -10,8 +10,9 @@ KVM_ARGS=""
 if [ -e /dev/kvm ]; then
     KVM_ARGS="-enable-kvm -cpu host"
     echo "[mBoot] enabled kvm"
+else
+    echo "[mBoot] Your processor does not have KVM support."
 fi
-echo "[mBoot] Your processor does not have KVM support."
 
 echo "[mBoot] Booting mochiOS..."
 exec qemu-system-x86_64 \

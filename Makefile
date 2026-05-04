@@ -28,7 +28,10 @@ save-config:
 
 run:
 	@echo "dir: $(IMAGES)"
-	@qemu-system-x86_64 \
+	@sudo qemu-system-x86_64 \
+			-accel kvm \
+			-accel tcg,thread=single \
+			-cpu host,migratable=no \
 			-kernel $(IMAGES)/bzImage \
 			-drive file=$(IMAGES)/rootfs.ext2,format=raw \
 			-append "root=/dev/sda console=tty1 console=ttyS0" \
@@ -37,7 +40,8 @@ run:
 			-display sdl \
 			-m 1G \
 			-netdev user,id=net0 \
-			-device e1000,netdev=net0
+			-device e1000,netdev=net0 \
+			-no-reboot
 
 clean:
 	$(MAKE) -C $(BUILDROOT_DIR) clean

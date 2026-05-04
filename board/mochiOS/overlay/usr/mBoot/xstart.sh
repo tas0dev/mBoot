@@ -7,9 +7,8 @@ ESP_IMG="/usr/mBoot/esp.img"
 echo "[mBoot] setted"
 
 echo "[mBoot] enabling kvm..."
-KVM_ARGS=""
 if [ -e /dev/kvm ]; then
-    ACCEL_ARGS="-enable-kvm -cpu host"
+    ACCEL_ARGS="-accel kvm -accel tcg,thread=single -cpu host,migratable=no,+invtsc"
     echo "[mBoot] enabled kvm"
 else
     ACCEL_ARGS="-accel tcg,thread=single -cpu max"
@@ -30,5 +29,5 @@ exec qemu-system-x86_64 \
     -m 512M \
     -serial stdio \
     -vga std \
-    -display sdl,show-cursor=off
-    -full-screen
+    -display sdl,show-cursor=off,full-screen=on \
+    -no-reboot
